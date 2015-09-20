@@ -6,4 +6,6 @@ WORKDIR /app
 COPY beefer /app/
 # copy the views into image
 COPY views /app/views/
+# copy the static files into image
+COPY static /app/static/
 ENTRYPOINT ["./beefer"]
