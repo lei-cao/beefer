@@ -1,4 +1,4 @@
 {{template "base/base.tpl" .}}
 {{define "main"}}
-Welcome to beefer!
+Sign up!
 {{end}}

@@ -25,11 +25,11 @@ func (c *BeeferController) Get() {
 }
 
 func (c *UserController) Login() {
-	c.TplNames = "beefer.tpl"
+	c.TplNames = "user/login.tpl"
 }
 
 func (c *UserController) Signup() {
-	c.TplNames = "beefer.tpl"
+	c.TplNames = "user/signup.tpl"
 }
 
 func (c *UserController) Logout() {
