@@ -1,8 +1,6 @@
 package main
 
 import (
-	"text/template"
-
 	"github.com/astaxie/beego"
 )
 
@@ -16,24 +14,10 @@ type User struct {
 
 // The Get method to handle the GET request
 func (c *BeeferController) Get() {
-	var tpl string = `
-        <html>
-            <head>
-                <title>Beefer!</title>
-            </head>
-            <body>
-                <strong>Hello, {{.User.Username}}</strong>
-            </body>
-        </html>
-    `
-	data := make(map[interface{}]interface{})
 	user := User{Username: "Alice"}
-	data["User"] = user
+	c.Data["User"] = user
 
-	t := template.New("Beefer Template")
-	t = template.Must(t.Parse(tpl))
-
-	t.Execute(c.Ctx.ResponseWriter, data)
+	c.TplNames = "beefer.tpl"
 }
 
 func main() {
