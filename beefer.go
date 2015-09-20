@@ -18,7 +18,8 @@ type User struct {
 
 // The Get method to handle the GET request
 func (c *BeeferController) Get() {
-	user := User{Username: "Alice"}
+	name := c.GetString("user")
+	user := User{Username: name}
 	c.Data["User"] = user
 
 	c.TplNames = "beefer.tpl"
