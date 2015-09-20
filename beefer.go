@@ -18,7 +18,7 @@ type User struct {
 
 // The Get method to handle the GET request
 func (c *BeeferController) Get() {
-	name := c.GetString("user")
+	name := c.GetString(":user")
 	user := User{Username: name}
 	c.Data["User"] = user
 
@@ -39,6 +39,7 @@ func (c *UserController) Logout() {
 
 func main() {
 	beego.Router("/", &BeeferController{})
+	beego.Router("/user/:user", &BeeferController{})
 	beego.Router("/user/login", &UserController{}, "get:Login")
 	beego.Router("/user/signup", &UserController{}, "get:Signup")
 	beego.Router("/user/logout", &UserController{}, "post:Logout")
