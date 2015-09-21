@@ -13,8 +13,8 @@
         </ul>
         <div class="navbar-right">
             <ul class="nav navbar-nav">
-                {{if .User}}
-                <li><p class="navbar-text">Hello, {{.User.Username}}</p></li>
+                {{if .CurrentUser}}
+                <li><p class="navbar-text">Hello, {{.CurrentUser.Username}}</p></li>
                 <li><a href="/user/logout">LOG OUT</a></li>
                 {{else}}
                 <li><a href="/user/login">LOG IN</a></li>
