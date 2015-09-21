@@ -2,7 +2,7 @@ package main
 
 import "github.com/astaxie/beego"
 
-const usernameCookieKey string = "username"
+const currentUserSessionKey string = "currentUser"
 
 type BeeferController struct {
 	beego.Controller
@@ -11,13 +11,11 @@ type BeeferController struct {
 
 // The Prepare() controller method runs before the real action methods
 func (c *BeeferController) Prepare() {
-	username := c.Ctx.GetCookie(usernameCookieKey)
-	if username == "" {
-		return
+	s :=c.GetSession(currentUserSessionKey)
+	if s != nil {
+		c.CurrentUser = s.(*User)
+		c.Data["CurrentUser"] = c.CurrentUser
 	}
-	user := User{Username: username}
-	c.CurrentUser = &user
-	c.Data["CurrentUser"] = c.CurrentUser
 }
 
 type UserController struct {
@@ -51,22 +49,23 @@ func (c *UserController) Signup() {
 			c.Data["ValidateMessage"] = "两次密码不一致"
 			return
 		}
-		user := User{Username: username}
+		user := &User{Username: username}
 		c.Data["User"] = user
-		c.Ctx.SetCookie(usernameCookieKey, username)
+		c.SetSession(currentUserSessionKey, user)
 		c.Redirect("/", 302)
 	}
 
 }
 
 func (c *UserController) Logout() {
-	c.CurrentUser = nil
-	c.Data["CurrentUser"] = c.CurrentUser
-	c.Ctx.SetCookie(usernameCookieKey, "")
+	c.Data["CurrentUser"] = nil
+	c.DelSession(currentUserSessionKey)
 	c.TplNames = "beefer.tpl"
 }
 
 func main() {
+	// Enable session. The default engine is memory
+	beego.SessionOn = true
 	beego.Router("/", &BeeferController{})
 	beego.Router("/user/:user", &BeeferController{})
 	beego.Router("/user/login", &UserController{}, "get:Login")
