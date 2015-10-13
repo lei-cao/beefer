@@ -1,6 +1,10 @@
 package main
 
-import "github.com/astaxie/beego"
+import (
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	_ "github.com/mattn/go-sqlite3"
+)
 
 const currentUserSessionKey string = "currentUser"
 
@@ -11,7 +15,7 @@ type BeeferController struct {
 
 // The Prepare() controller method runs before the real action methods
 func (c *BeeferController) Prepare() {
-	s :=c.GetSession(currentUserSessionKey)
+	s := c.GetSession(currentUserSessionKey)
 	if s != nil {
 		c.CurrentUser = s.(*User)
 		c.Data["CurrentUser"] = c.CurrentUser
@@ -22,8 +26,12 @@ type UserController struct {
 	BeeferController
 }
 
+// The User model map to user table in db
 type User struct {
-	Username string
+	Id       int
+	Username string `orm:"size(50)"`
+	Email    string `orm:"size(200)"`
+	Password string `orm:"size(100)"`
 }
 
 // The Get method to handle the GET request
@@ -49,7 +57,21 @@ func (c *UserController) Signup() {
 			c.Data["ValidateMessage"] = "两次密码不一致"
 			return
 		}
-		user := &User{Username: username}
+		user := &User{Username: username, Password: password}
+
+		o := orm.NewOrm()
+		if created, id, err := o.ReadOrCreate(user, "Username"); err == nil {
+			if created {
+				user.Id = int(id)
+			} else {
+				c.Data["ValidateMessage"] = "User existed."
+				return
+			}
+		} else {
+			c.Data["ValidateMessage"] = err
+			return
+		}
+
 		c.Data["User"] = user
 		c.SetSession(currentUserSessionKey, user)
 		c.Redirect("/", 302)
@@ -61,6 +83,17 @@ func (c *UserController) Logout() {
 	c.Data["CurrentUser"] = nil
 	c.DelSession(currentUserSessionKey)
 	c.TplNames = "beefer.tpl"
+}
+
+func init() {
+	// set default database
+	orm.RegisterDataBase("default", "sqlite3", "./beefer.db", 30)
+
+	// register model
+	orm.RegisterModel(new(User))
+
+	// create table
+	orm.RunSyncdb("default", false, true)
 }
 
 func main() {
