@@ -8,4 +8,6 @@ COPY beefer /app/
 COPY views /app/views/
 # copy the static files into image
 COPY static /app/static/
+# copy the db files into image
+COPY db /app/db/
 ENTRYPOINT ["./beefer"]

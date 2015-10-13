@@ -87,7 +87,7 @@ func (c *UserController) Logout() {
 
 func init() {
 	// set default database
-	orm.RegisterDataBase("default", "sqlite3", "./beefer.db", 30)
+	orm.RegisterDataBase("default", "sqlite3", "./db/beefer.db", 30)
 
 	// register model
 	orm.RegisterModel(new(User))
