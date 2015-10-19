@@ -25,3 +25,4 @@ _testmain.go
 beefer
 .idea
 db/beefer.db
+conf/db.conf
