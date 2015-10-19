@@ -4,6 +4,8 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/mattn/go-sqlite3"
+	//	_ "github.com/go-sql-driver/mysql"
+	//	_ "github.com/lib/pq"
 )
 
 const currentUserSessionKey string = "currentUser"
@@ -88,6 +90,8 @@ func (c *UserController) Logout() {
 func init() {
 	// set default database
 	orm.RegisterDataBase("default", "sqlite3", "./db/beefer.db", 30)
+	//	orm.RegisterDataBase("default", "mysql", "root:mysecretpw@tcp(192.168.99.100:3306)/beefer?charset=utf8", 30)
+	//	orm.RegisterDataBase("default", "postgres", "user=postgres password=mysecretpassword host=192.168.99.100 port=5432 dbname=beefer sslmode=disable", 30)
 
 	// register model
 	orm.RegisterModel(new(User))
