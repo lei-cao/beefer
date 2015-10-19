@@ -1,14 +1,21 @@
 {
 	"ImportPath": "github.com/lei-cao/beefer",
 	"GoVersion": "go1.4.2",
-	"Packages": [
-		"."
-	],
 	"Deps": [
 		{
 			"ImportPath": "github.com/astaxie/beego",
 			"Comment": "v1.4.2-6-gb350e6c",
 			"Rev": "b350e6c59350887c495996a7ccf47f43bbbd3e5b"
+		},
+		{
+			"ImportPath": "github.com/go-sql-driver/mysql",
+			"Comment": "v1.2-112-gfb72997",
+			"Rev": "fb7299726d2e68745a8805b14f2ff44b5c2cfa84"
+		},
+		{
+			"ImportPath": "github.com/lib/pq",
+			"Comment": "go1.0-cutoff-59-gb269bd0",
+			"Rev": "b269bd035a727d6c1081f76e7a239a1b00674c40"
 		},
 		{
 			"ImportPath": "github.com/mattn/go-sqlite3",
