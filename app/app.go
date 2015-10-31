@@ -10,6 +10,9 @@ import (
 
 	"github.com/astaxie/beego/config"
 	"github.com/astaxie/beego/orm"
+
+	"github.com/lei-cao/beefer/app/models"
+	_ "github.com/lei-cao/beefer/app/routers"
 )
 
 const (
@@ -45,7 +48,7 @@ func init() {
 	}
 
 	// Init User model
-	Init()
+	models.Init()
 
 	// Sync db
 	orm.RunSyncdb("default", false, true)

@@ -1,6 +1,10 @@
-package app
+package controllers
 
-import "github.com/astaxie/beego/orm"
+import (
+	"github.com/astaxie/beego/orm"
+
+	"github.com/lei-cao/beefer/app/models"
+)
 
 const currentUserSessionKey string = "currentUser"
 
@@ -11,7 +15,7 @@ type UserController struct {
 // The Get method to handle the GET request
 func (c *UserController) Get() {
 	name := c.GetString(":user")
-	user := User{Username: name}
+	user := models.User{Username: name}
 	c.Data["User"] = user
 
 	c.TplNames = "beefer.tpl"
@@ -31,7 +35,7 @@ func (c *UserController) Signup() {
 			c.Data["ValidateMessage"] = "两次密码不一致"
 			return
 		}
-		user := &User{Username: username, Password: password}
+		user := &models.User{Username: username, Password: password}
 
 		o := orm.NewOrm()
 		if created, id, err := o.ReadOrCreate(user, "Username"); err == nil {
